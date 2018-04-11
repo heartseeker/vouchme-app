@@ -9,6 +9,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import { HomeComponent } from './page/home/home.component';
+import { PageModule } from './page/page.module';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,12 +22,12 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     SignUpComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    PageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
