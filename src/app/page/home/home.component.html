@@ -43,7 +43,7 @@
           <input type="text" name="name" class="form-control search-box" placeholder="Find people reputation"/>
         </div>
         <a class="btn btn-full">Vouch Search</a>
-        <a class="btn btn-full" href="#sign-up">Get Started Now</a>
+        <a class="btn btn-full" routerLink="/user/login">Get Started Now</a>
       </div>
     </div>
 
@@ -51,30 +51,9 @@
   <!-- /Hero -->
 
   <!-- Header -->
-  <header id="header">
-    <div class="container">
-
-      <div id="logo" class="pull-left">
-        <a href="index.html"><img src="/assets/images/logo-nav.png" alt="" title="" /></a>
-        <!-- Uncomment below if you prefer to use a text image -->
-        <!-- <h1><a href="#hero">VouchMe</a></h1> -->
-      </div>
-
-      <nav id="nav-menu-container">
-        <ul class="nav-menu">
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#contact">Contact Us</a></li>
-        </ul>
-      </nav>
-      <!-- #nav-menu-container -->
-
-      <nav class="nav social-nav pull-right d-none d-lg-inline">
-        <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-linkedin"></i></a> <a href="#"><i class="fa fa-envelope"></i></a>
-      </nav>
-    </div>
-  </header>
+  <app-header></app-header>
   <!-- #header -->
-
+  
   <!-- About -->
   <section class="about" id="about">
     <div class="container text-center">
@@ -138,7 +117,8 @@
             </div>
             <button type="submit" class="btn btn-primary btn-lg float-left" (click)="signUp()">Sign up</button>
 
-            <a href="#" title="Facebook" class="btn btn-facebook btn-lg float-right"><i class="fa fa-facebook fa-fw"></i> Facebook</a>
+            <a (click)="signInWithFB()" title="Facebook" class="btn btn-facebook btn-lg float-right"><i class="fa fa-facebook fa-fw"></i> Facebook</a>
+            <button (click)="signOut()">Logout</button>
           </form>
         </div>
       </div>

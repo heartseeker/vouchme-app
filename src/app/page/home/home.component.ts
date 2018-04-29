@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
+import { AuthService } from 'angularx-social-login';
+import { FacebookLoginProvider } from 'angularx-social-login';
+import { AuthenticateService } from '../../core/authenticate.service';
 
 
 @Component({
@@ -12,19 +15,34 @@ export class HomeComponent implements OnInit {
 
   form: FormGroup;
   modal = false;
+  user;
 
   constructor(
     private fb: FormBuilder,
-    private http: ApiService
+    private http: ApiService,
+    private authService: AuthService,
+    private auth: AuthenticateService
   ) { }
 
   ngOnInit() {
+    this.user = this.auth.getFbUser();
+
+    console.log('user', this.user);
+
     this.form = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 
   signUp() {
