@@ -13,14 +13,26 @@ import { PageModule } from './page/page.module';
 import { LoginComponent } from './user/login/login.component';
 import { SharedModule } from './shared/shared.module';
 import { ProfileComponent } from './user/profile/profile.component';
+import { AuthGuardService } from './shared/service/auth-guard.service';
+import { JwtModule } from '@auth0/angular-jwt';
+
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'user/signup', component: SignUpComponent },
   { path: 'user/login', component: LoginComponent },
-  { path: 'user/profile', component: ProfileComponent },
+  { path: 'user/profile', component: ProfileComponent, canActivate: [AuthGuardService] },
 ];
+
+export function tokenGetter() {
+  const profile = localStorage.getItem('profile');
+  if (!profile) {
+    return false;
+  }
+  const token = JSON.parse(profile).token;
+  return token;
+}
 
 
 @NgModule({
@@ -35,9 +47,14 @@ const routes: Routes = [
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     RouterModule.forRoot(routes),
     SharedModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    }),
     PageModule,
   ],
-  providers: [],
+  providers: [AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

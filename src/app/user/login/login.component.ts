@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { Router } from '@angular/router';
-
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-login',
@@ -36,8 +37,13 @@ export class LoginComponent implements OnInit {
       password
     };
 
-    this.http.post('users/login', payload).subscribe(res => {
+    this.http.post('users/login', payload)
+    .switchMap((res) => {
       this.route.navigate(['user/profile']);
+      return this.http.post('profile/get', {});
+    })
+    .subscribe(profile => {
+      console.log('profile', profile);
     });
   }
 

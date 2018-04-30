@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
     this.user = this.auth.getFbUser();
 
     console.log('user', this.user);
+    console.log('isLoggedin', this.auth.isLoggedIn());
 
     this.form = this.fb.group({
       first_name: ['', Validators.required],

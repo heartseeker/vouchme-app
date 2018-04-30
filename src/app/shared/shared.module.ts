@@ -7,21 +7,20 @@ import { HeaderComponent } from './component/header/header.component';
 import { RouterModule } from '@angular/router';
 
 
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     HeaderComponent,
-    RouterModule
+    RouterModule,
   ],
   declarations: [
     HeaderComponent
