@@ -1,0 +1,100 @@
+<!-- Header -->
+<app-header></app-header>
+<!-- #header -->
+
+<div class="container">
+
+  <div *ngIf="user != null; else notfound">
+    <div class="row mt-5">
+      <div class="col-md">
+        <div class="col justify-content-center">
+          <img src="http://placehold.it/200x200" alt="..." class="img-thumbnail">
+        </div>
+        <div class="col justify-content-center">
+          <button type="button" class="btn btn-primary full">Vouch Me</button>
+        </div>
+        <div class="col-md">
+          <h6 class="mt-2">Connections</h6>
+          <ul class="list-group">
+            <li *ngFor="let social of socials"><a target="_blank" [href]="social.url">{{ social.url }}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md">
+        <dl class="row">
+          <!-- Name -->
+          <dt class="col-sm-3">Name</dt>
+          <dd class="col-sm-9">{{ user.profile.first_name + ' ' + user.profile.last_name }}</dd>
+          <!-- Phone number -->
+          <dt class="col-sm-3">Phone</dt>
+          <dd class="col-sm-9">{{ user.profile.phone ? user.profile.phone : 'N/A' }}</dd>
+          <!-- Address -->
+          <dt class="col-sm-3">Address</dt>
+          <dd class="col-sm-9">
+            <p>{{ user.profile.address ? user.profile.address : 'N/A' }}</p>
+          </dd>
+        </dl>
+
+        <div class="row mb-3">
+          <ul class="list-group">
+            <li class="list-group-item">Documents: Completed <img class="img-thumbnail verified-img" src="/assets/images/verified.png"/></li>
+          </ul>
+        </div>
+
+        <div class="row">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Social</th>
+                <th scope="col">Total # of vouches</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let transaction of (transactions$ | async)?.data">
+                <th>{{ transaction.name }}</th>
+                <td>{{ transaction.count }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+     
+    </div>
+    <div class="row">
+      <div class="row stats-row mx-auto" *ngIf="transactions$ | async as transactions">
+        <div class="stats-col text-center col-md-3 col-sm-6">
+          <div class="circle">
+            <span class="stats-no" data-toggle="counter-up">232</span> Total Vouches
+          </div>
+        </div>
+
+        <div class="stats-col text-center col-md-3 col-sm-6">
+          <div class="circle">
+            <span class="stats-no" data-toggle="counter-up">{{ transactions.total }}</span> Total Transactions
+          </div>
+        </div>
+
+        <div class="stats-col text-center col-md-3 col-sm-6">
+          <div class="circle">
+            <span class="stats-no" data-toggle="counter-up">{{ transactions.socials.cancelled }}</span> Total Cancelled
+          </div>
+        </div>
+
+        <div class="stats-col text-center col-md-3 col-sm-6">
+          <div class="circle">
+            <span class="stats-no" data-toggle="counter-up">{{ transactions.socials.success }}</span> Success Transactions
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #notfound>
+    404 Not Found
+  </ng-template>
+  <!-- Footer -->
+  <app-footer></app-footer>
+  <!-- #Footer -->
+</div>

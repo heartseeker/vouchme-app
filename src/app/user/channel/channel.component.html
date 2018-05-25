@@ -1,0 +1,31 @@
+<div [ngClass]="{'disabled': modal}"></div>
+<!-- Header -->
+<app-header></app-header>
+<!-- #header -->
+
+<div class="container">
+  <div class="row mt-5">
+
+    <div class="col-md-2">
+      <!-- sidebar menu -->
+      <app-sidebar-menu></app-sidebar-menu>
+      <!-- #header -->
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Channels <a href="javascript:void(0)" routerLink="/user/channels/add"><span class="add">Add</span></a></h4>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let channel of channels$ | async">
+          {{ channel.name }}
+          <button *ngIf="channel.user" type="button" class="close" aria-label="Close" (click)="delete(channel._id)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+  <!-- #Footer -->
+</div>

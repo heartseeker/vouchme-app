@@ -5,7 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 import { FacebookLoginProvider } from 'angularx-social-login';
 import { AuthenticateService } from '../core/authenticate.service';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const config = new AuthServiceConfig([
@@ -24,6 +24,7 @@ export function provideConfig() {
     CommonModule,
     SharedModule,
     SocialLoginModule,
+    NgbModule.forRoot()
   ],
   declarations: [HomeComponent],
   providers: [

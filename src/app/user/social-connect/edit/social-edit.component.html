@@ -1,0 +1,50 @@
+<div [ngClass]="{'disabled': modal}"></div>
+<!-- Header -->
+<app-header></app-header>
+<!-- #header -->
+
+<div class="container">
+  <div class="row mt-5">
+
+    <div class="col-md-2">
+      <!-- sidebar menu -->
+      <app-sidebar-menu></app-sidebar-menu>
+      <!-- #header -->
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Social Connections</h4>
+      
+      <form class="needs-validation" [formGroup]="form">
+        <div class="form-group">
+          <label>Website name</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            formControlName="name"
+            [ngClass]="{'is-invalid' : form.get('name').invalid && form.get('name').touched}">
+          <div class="invalid-feedback">
+            Website name is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label>URL</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            formControlName="url"
+            [ngClass]="{'is-invalid' : form.get('url').invalid && form.get('url').touched}">
+          <div class="invalid-feedback">
+            URL is not valid.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-light" routerLink="/user/connections">Cancel</button> &nbsp;
+        <button type="submit" class="btn btn-primary" (click)="update()" [disabled]="!form.valid">Save</button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+  <!-- #Footer -->
+</div>

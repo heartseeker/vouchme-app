@@ -5,6 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from '../core/api.service';
 import { HeaderComponent } from './component/header/header.component';
 import { RouterModule } from '@angular/router';
+import { ProfileFormComponent } from './component/profile-form/profile-form.component';
+import { FooterComponent } from './component/footer/footer.component';
+import { SuccessComponent } from './modal/success/success.component';
+import { SidebarMenuComponent } from './component/sidebar-menu/sidebar-menu.component';
 
 
 @NgModule({
@@ -21,9 +25,17 @@ import { RouterModule } from '@angular/router';
     HttpClientModule,
     HeaderComponent,
     RouterModule,
+    ProfileFormComponent,
+    FooterComponent,
+    SuccessComponent,
+    SidebarMenuComponent
   ],
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    ProfileFormComponent,
+    FooterComponent,
+    SuccessComponent,
+    SidebarMenuComponent
   ],
   providers: [
     ApiService

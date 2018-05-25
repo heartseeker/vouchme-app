@@ -27,17 +27,14 @@ export class AuthenticateService {
   }
 
   isLoggedIn() {
-    const profile = localStorage.getItem('profile');
-
-    if (!profile) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       return false;
     }
 
-    const token = JSON.parse(profile).token;
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
     const isExpired = helper.isTokenExpired(token);
-
     return !isExpired;
   }
 

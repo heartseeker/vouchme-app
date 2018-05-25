@@ -38,13 +38,18 @@
     display: block !important;
 }
 
-.disabled {
-    position:fixed;
-    top:0;
-    left:0;
-    background:#000;
-    opacity:0.8;
-    z-index:998;
-    height:100%;
-    width:100%;
-}
+// .dropdown-menu, ngb-typeahead-window {
+//     width: 62.5rem !important;
+// }
+
+// #ngb-typeahead-0 {
+//     width: 62.5rem !important;
+// }
+
+// ::ng-deep ngb-typeahead-window.dropdown-menu {
+//     position:absolute;
+//     width:calc(100% - 26.7rem);
+//     // width: 62.5rem;
+//     max-height: 300px;
+//     overflow-y: auto;
+// }

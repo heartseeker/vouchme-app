@@ -12,9 +12,9 @@
             <form [formGroup]="form">
              
               <div class="form-group">
-                <label for="email">E-Mail Address</label>
+                <label for="username">E-Mail Address</label>
 
-                <input id="email" type="email" class="form-control" formControlName="email">
+                <input id="username" type="email" class="form-control" formControlName="username">
               </div>
 
               <div class="form-group">
@@ -42,7 +42,7 @@
                 </button>
               </div>
               <div class="margin-top20 text-center">
-                Don't have an account? <a href="register.html">Create One</a>
+                Don't have an account? <a routerLink="/user/signup">Create One</a>
               </div>
             </form>
           </div>

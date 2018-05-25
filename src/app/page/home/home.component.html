@@ -41,9 +41,21 @@
           Vouch people reputation
         </p>
         <div class="search-box-container">
-          <input type="text" name="name" class="form-control search-box" placeholder="Find people reputation"/>
+          <ng-template #rt let-r="result" let-t="term">
+            {{ r.profile.first_name + ' ' + r.profile.last_name}} | <span class="email">{{ r.username }}</span>
+          </ng-template>
+          <!-- formControlName="partner"  -->
+          
+          <input 
+            placeholder="Find people reputation"
+            type="text" 
+            class="form-control search-box" 
+            [ngbTypeahead]="search" 
+            [resultTemplate]="rt"
+            [inputFormatter]="formatter" 
+            (selectItem)="selected($event)"/>
         </div>
-        <a class="btn btn-full">Vouch Search</a>
+        <a class="btn btn-full">Vouch Search</a>&nbsp;
         <a class="btn btn-full" routerLink="/user/login">Get Started Now</a>
       </div>
     </div>
@@ -109,7 +121,7 @@
               <input type="text" class="form-control" formControlName="last_name" placeholder="Last Name"/>
             </div>
             <div class="form-group">
-              <input type="email" class="form-control"placeholder="Email address" formControlName="email"/>
+              <input type="email" class="form-control"placeholder="Email address" formControlName="username"/>
               <div class="validation"></div>
             </div>
             <div class="form-group">
@@ -119,7 +131,7 @@
             <button type="submit" class="btn btn-primary btn-lg float-left" (click)="signUp()">Sign up</button>
 
             <a (click)="signInWithFB()" title="Facebook" class="btn btn-facebook btn-lg float-right"><i class="fa fa-facebook fa-fw"></i> Facebook</a>
-            <button (click)="signOut()">Logout</button>
+            <!-- <button (click)="signOut()">Logout</button> -->
           </form>
         </div>
       </div>

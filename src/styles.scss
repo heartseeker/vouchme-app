@@ -979,3 +979,18 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
   
+
+.disabled {
+  position:fixed;
+  top:0;
+  left:0;
+  background:#000;
+  opacity:0.8;
+  z-index:998;
+  height:100%;
+  width:100%;
+}
+
+.show {
+  display: block !important;
+}

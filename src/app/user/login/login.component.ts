@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/switchMap';
 
@@ -23,13 +24,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      email: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
   login() {
-    const username = this.form.controls['email'].value;
+    const username = this.form.controls['username'].value;
     const password = this.form.controls['password'].value;
 
     const payload = {
@@ -37,13 +38,11 @@ export class LoginComponent implements OnInit {
       password
     };
 
-    this.http.post('users/login', payload)
-    .switchMap((res) => {
+    this.http.post('auth', payload)
+    .subscribe((res) => {
+      const helper = new JwtHelperService();
+      localStorage.setItem('token', res['token']);
       this.route.navigate(['user/profile']);
-      return this.http.post('profile/get', {});
-    })
-    .subscribe(profile => {
-      console.log('profile', profile);
     });
   }
 

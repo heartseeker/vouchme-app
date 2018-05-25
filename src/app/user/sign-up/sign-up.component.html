@@ -10,25 +10,25 @@
 
   <div class="row">
     <div class="col-md-8 order-md-1">
-      <form class="needs-validation" novalidate>
+      <form class="needs-validation" [formGroup]="form" novalidate>
         <div class="row">
           <div class="col-md-4 mb-3">
             <label for="firstName">First name</label>
-            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+            <input type="text" class="form-control" id="firstName" formControlName="first_name">
             <div class="invalid-feedback">
               Valid first name is required.
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="lastName">Last name</label>
-            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <input type="text" class="form-control" id="lastName" formControlName="last_name">
             <div class="invalid-feedback">
               Valid last name is required.
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <label for="middleName">Middle name</label>
-            <input type="text" class="form-control" id="middleName" placeholder="" value="">
+            <input type="text" class="form-control" id="middleName" formControlName="middle_name">
             <div class="invalid-feedback">
               Valid Middle name is required.
             </div>
@@ -37,7 +37,7 @@
 
         <div class="mb-3">
           <label for="email">Email <span class="text-muted">(Optional)</span></label>
-          <input type="email" class="form-control" id="email" placeholder="you@example.com">
+          <input type="email" class="form-control" id="email" placeholder="you@example.com" formControlName="email">
           <div class="invalid-feedback">
             Please enter a valid email address for shipping updates.
           </div>
@@ -45,7 +45,7 @@
 
         <div class="mb-3">
           <label for="address">Address</label>
-          <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+          <input type="text" class="form-control" id="address" placeholder="1234 Main St" formControlName="address">
           <div class="invalid-feedback">
             Please enter your shipping address.
           </div>
@@ -53,15 +53,15 @@
 
         <div class="mb-3">
           <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-          <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+          <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" formControlName="address2">
         </div>
 
         <div class="row">
           <div class="col-md-8 mb-3">
             <label for="state">Region</label>
-            <select class="custom-select d-block w-100" id="state" required>
+            <select class="custom-select d-block w-100" id="state" formControlName="region">
               <option value="">Choose...</option>
-              <option>California</option>
+              <option *ngFor="let region of regions" [value]="region.name">{{ region.long }}</option>
             </select>
             <div class="invalid-feedback">
               Please provide a valid state.
@@ -69,22 +69,22 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="zip">Zip</label>
-            <input type="text" class="form-control" id="zip" placeholder="" required>
+            <input type="text" class="form-control" id="zip" formControlName="zip">
             <div class="invalid-feedback">
               Zip code required.
             </div>
           </div>
         </div>
         
-        <div class="column">
+        <div class="column gender">
           <label>Gender:</label>
           <div class="row">
             <div class="col-md-2 mb-3 custom-control custom-radio">
-              <input id="male" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+              <input [value]="1" id="male" name="gender" type="radio" class="custom-control-input" formControlName="gender">
               <label class="custom-control-label" for="male">Male</label>
             </div>
             <div class="col-md-2 mb-3 custom-control custom-radio">
-              <input id="female" name="paymentMethod" type="radio" class="custom-control-input" required>
+              <input [value]="2" id="female" name="gender" type="radio" class="custom-control-input" formControlName="gender">
               <label class="custom-control-label" for="female">Female</label>
             </div>
           </div>
@@ -93,26 +93,27 @@
         <div class="row">
           <div class="col-md-4 mb-3">
             <label>Date of Birth:</label>
-            <select class="form-control">
-                <option class="">January</option>
+            <select class="form-control" formControlName="dob_month">
+                <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
             </select>
           </div>
           <div class="col-md-4 mb-3">
             <label>&nbsp;</label>
-            <select class="form-control">
-                <option class="">01</option>
+            <select class="form-control" formControlName="dob_day" [disabled]>
+                <option *ngFor="let day of days" [value]="day">{{ day }}</option>
             </select>
           </div>
           <div class="col-md-4 mb-3">
             <label>&nbsp;</label>
-            <select class="form-control">
-                <option class="">1990</option>
+            <select class="form-control" formControlName="dob_year">
+                <option *ngFor="let year of years" [value]="year">{{ year }}</option>
             </select>
           </div>
         </div>
 
         <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Save profile</button>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="signup()">Create account</button>
       </form>
     </div>
   </div>
+</div>
