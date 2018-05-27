@@ -15,6 +15,7 @@ export class PublicComponent implements OnInit {
   path = environment.api_url;
   socials: any = {};
   transactions$;
+  verify;
 
   constructor(
     private route: Router,
@@ -23,23 +24,39 @@ export class PublicComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getTransactions();
+  }
+
+  getTransactions() {
     const alias = this.activated.snapshot.params['alias'];
 
-    this.http.get(`users/${alias}`).take(1).subscribe(user => {
+    this.http.get(`users/${alias}`).take(1)
+    .switchMap(user => {
       if (user) {
         this.user = user;
         this.socials = user['social'];
+        this.transactions$ = this.http.get('transactions/social?to=' + user['_id']);
+        return this.http.post('vouches/verify', { to: this.user._id });
       }
+    })
+    .subscribe(res => {
+      this.verify = res['status'];
     });
-
-    this.transactions$ = this.http.get('transactions/social');
-
   }
 
   findSocial(name) {
     const social = this.user['social'];
     return social.find((s) => {
       return s['name'] === name;
+    });
+  }
+
+  vouch() {
+    this.http.post('vouches', { to: this.user._id }).subscribe(res => {
+      this.verify = res['status'];
+      this.getTransactions();
+    }, (err) => {
+      this.route.navigate(['user/login']);
     });
   }
 

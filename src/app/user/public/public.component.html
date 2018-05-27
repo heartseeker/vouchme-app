@@ -11,7 +11,7 @@
           <img src="http://placehold.it/200x200" alt="..." class="img-thumbnail">
         </div>
         <div class="col justify-content-center">
-          <button type="button" class="btn btn-primary full">Vouch Me</button>
+          <button type="button" [ngClass]="verify ? 'btn-outline-primary' : 'btn-primary'" class="btn full" (click)="vouch()">Vouch Me</button>
         </div>
         <div class="col-md">
           <h6 class="mt-2">Connections</h6>
@@ -65,7 +65,7 @@
       <div class="row stats-row mx-auto" *ngIf="transactions$ | async as transactions">
         <div class="stats-col text-center col-md-3 col-sm-6">
           <div class="circle">
-            <span class="stats-no" data-toggle="counter-up">232</span> Total Vouches
+            <span class="stats-no" data-toggle="counter-up">{{ transactions.vouch }}</span> Total Vouches
           </div>
         </div>
 
