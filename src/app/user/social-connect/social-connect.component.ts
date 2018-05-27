@@ -12,6 +12,7 @@ export class SocialConnectComponent implements OnInit {
 
   socials: any = {};
   profile;
+  modal = false;
 
   constructor(
     private router: Router,

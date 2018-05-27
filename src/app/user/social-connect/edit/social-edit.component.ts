@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class SocialEditComponent implements OnInit {
 
   form: FormGroup;
+  modal = false;
 
   constructor(
     private fb: FormBuilder,

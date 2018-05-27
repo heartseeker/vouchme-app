@@ -10,6 +10,7 @@ import { ApiService } from '../../core/api.service';
 export class ChannelComponent implements OnInit {
 
   channels$;
+  modal = false;
 
   constructor(
     private http: ApiService
