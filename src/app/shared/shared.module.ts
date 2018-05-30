@@ -9,6 +9,7 @@ import { ProfileFormComponent } from './component/profile-form/profile-form.comp
 import { FooterComponent } from './component/footer/footer.component';
 import { SuccessComponent } from './modal/success/success.component';
 import { SidebarMenuComponent } from './component/sidebar-menu/sidebar-menu.component';
+import { LoaderComponent } from './component/loader/loader.component';
 
 
 @NgModule({
@@ -28,14 +29,16 @@ import { SidebarMenuComponent } from './component/sidebar-menu/sidebar-menu.comp
     ProfileFormComponent,
     FooterComponent,
     SuccessComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    LoaderComponent
   ],
   declarations: [
     HeaderComponent,
     ProfileFormComponent,
     FooterComponent,
     SuccessComponent,
-    SidebarMenuComponent
+    SidebarMenuComponent,
+    LoaderComponent
   ],
   providers: [
     ApiService

@@ -1,4 +1,6 @@
 <div [ngClass]="{'disabled': modal}"></div>
+<div [ngClass]="{'disabled': request}"></div>
+<app-loader *ngIf="request"></app-loader>
 <div class="modal" [ngClass]="{'show': modal}"  role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -107,28 +109,48 @@
     </div>
   </section>
   <!-- /About -->
-
+  
   <!-- Sign up -->
   <section class="block bg-primary block-pd-lg block-bg-overlay text-center" data-bg-img="/assets/images/parallax-bg.jpg" data-settings='{"stellar-background-ratio": 0.6}' data-toggle="parallax-bg" id="sign-up">
-    <div class="container text-center">
+    <div class="container text-center signup-container">
       <h2>Sign up</h2>
       <div class="col-lg-5 col-md-8 offset-md-4">
         <div class="form">
           <div id="errormessage"></div>
           <form [formGroup]="form" class="contactForm">
-            <div class="input-group">
-              <input type="text" class="form-control" formControlName="first_name" placeholder="First Name"/>
-              <input type="text" class="form-control" formControlName="last_name" placeholder="Last Name"/>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="first_name" placeholder="First Name"
+              [ngClass]="{'is-invalid' : form.get('first_name').invalid && form.get('first_name').touched}"
+              />
+              <div class="validation" *ngIf="form.get('first_name').invalid && form.get('first_name').touched">
+                Valid first name is required.
+              </div>
             </div>
             <div class="form-group">
-              <input type="email" class="form-control"placeholder="Email address" formControlName="username"/>
-              <div class="validation"></div>
+              <input type="text" class="form-control" formControlName="last_name" placeholder="Last Name"
+              [ngClass]="{'is-invalid' : form.get('last_name').invalid && form.get('last_name').touched}"
+              />
+              <div class="validation" *ngIf="form.get('last_name').invalid && form.get('last_name').touched">
+                Valid last name is required.
+              </div>
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" formControlName="password" placeholder="Password" data-rule="minlen:4"/>
-              <div class="validation"></div>
+              <input type="email" class="form-control"placeholder="Email address" formControlName="username"
+              [ngClass]="{'is-invalid' : form.get('username').invalid && form.get('username').touched}"
+              />
+              <div class="validation" *ngIf="form.get('username').invalid && form.get('username').touched">
+                Valid email is required.
+              </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg float-left" (click)="signUp()">Sign up</button>
+            <div class="form-group">
+              <input type="password" class="form-control" formControlName="password" placeholder="Password" data-rule="minlen:4"
+              [ngClass]="{'is-invalid' : form.get('password').invalid && form.get('password').touched}"
+              />
+              <div class="validation" *ngIf="form.get('password').invalid && form.get('password').touched">
+                Password is invalid.
+              </div>
+            </div>
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-lg float-left" (click)="signUp()">Sign up</button>
 
             <a (click)="signInWithFB()" title="Facebook" class="btn btn-facebook btn-lg float-right"><i class="fa fa-facebook fa-fw"></i> Facebook</a>
             <!-- <button (click)="signOut()">Logout</button> -->

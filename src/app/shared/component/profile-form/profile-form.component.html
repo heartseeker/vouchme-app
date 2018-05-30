@@ -8,7 +8,7 @@
 <div class="row mt-5">
   <div class="col-md-2">
     <!-- sidebar menu -->
-    <app-sidebar-menu></app-sidebar-menu>
+    <app-sidebar-menu *ngIf="mode == 'edit'" ></app-sidebar-menu>
     <!-- #header -->
   </div>
   <div class="col-md-8 order-md-1">
@@ -137,41 +137,43 @@
         </div>
       </div>
 
-      <h4>Credential Settings</h4>
-      <hr>
-
-      <div class="mb-3">
-        <label for="id1">Government ID 1</label>
-        <input type="file" (change)="onSelectFile($event, 'id1Url')" accept=".png, .jpg, .jpeg" class="form-control" id="id1" (change)="onFileChange($event, 'id1')">
-        <br/>
-        <img *ngIf="id1Url" [src]="id1Url" height="200" class="img-thumbnail card-id">
-        <div class="invalid-feedback">
-          Please enter your Government ID 1.
+      <div *ngIf="mode == 'edit'">
+        <h4>Credential Settings</h4>
+        <hr>
+        
+        <div class="mb-3">
+          <label for="id1">Government ID 1</label>
+          <input type="file" (change)="onSelectFile($event, 'id1Url')" accept=".png, .jpg, .jpeg" class="form-control" id="id1" (change)="onFileChange($event, 'id1')">
+          <br/>
+          <img *ngIf="id1Url" [src]="id1Url" height="200" class="img-thumbnail card-id">
+          <div class="invalid-feedback">
+            Please enter your Government ID 1.
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label for="id2">Government ID 2</label>
+          <input type="file" (change)="onSelectFile($event, 'id2Url')" accept=".png, .jpg, .jpeg" class="form-control" id="id2" (change)="onFileChange($event, 'id2')">
+          <br/>
+          <img *ngIf="id2Url" [src]="id2Url" height="200" class="img-thumbnail card-id">
+          <div class="invalid-feedback">
+            Please enter your Government ID 2.
+          </div>
+        </div>
+        
+        <div class="mb-3">
+          <label for="billing">Billing Info</label>
+          <input type="file" (change)="onSelectFile($event, 'billingUrl')" class="form-control" id="billing" (change)="onFileChange($event, 'billing')">
+          <br/>
+          <img *ngIf="billingUrl" [src]="billingUrl" height="200" class="img-thumbnail card-id">
+          <div class="invalid-feedback">
+            Please enter your Billing Info.
+          </div>
         </div>
       </div>
-
-      <div class="mb-3">
-        <label for="id2">Government ID 2</label>
-        <input type="file" (change)="onSelectFile($event, 'id2Url')" accept=".png, .jpg, .jpeg" class="form-control" id="id2" (change)="onFileChange($event, 'id2')">
-        <br/>
-        <img *ngIf="id2Url" [src]="id2Url" height="200" class="img-thumbnail card-id">
-        <div class="invalid-feedback">
-          Please enter your Government ID 2.
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="billing">Billing Info</label>
-        <input type="file" (change)="onSelectFile($event, 'billingUrl')" class="form-control" id="billing" (change)="onFileChange($event, 'billing')">
-        <br/>
-        <img *ngIf="billingUrl" [src]="billingUrl" height="200" class="img-thumbnail card-id">
-        <div class="invalid-feedback">
-          Please enter your Billing Info.
-        </div>
-      </div>
-
-
-      <hr class="mb-4">
+        
+        
+        <hr class="mb-4">
       <button [disabled]="!form.valid" class="btn btn-primary btn-lg btn-block" type="submit" (click)="save()">{{ btnLabel }}</button>
     </form>
   </div>

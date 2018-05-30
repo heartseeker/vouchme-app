@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   form: FormGroup;
   modal = false;
   user;
+  request = false;
 
   formatter;
   searching = false;
@@ -93,9 +94,13 @@ export class HomeComponent implements OnInit {
     };
 
     console.log('payload', payload);
-
+    this.request = true;
     this.http.post('users', payload).subscribe(res => {
+      this.request = false;
       this.modal = true;
+    }, (err) => {
+      this.request = false;
+      console.log(err);
     });
   }
 

@@ -150,9 +150,35 @@ export class ProfileFormComponent implements OnInit {
 
     if (this.mode === 'edit') {
       this.updateProfile(data);
+    } else {
+      // create data
+      this.createProfile(data);
     }
 
     console.log('form', this.form);
+  }
+
+  createProfile(data) {
+    const userPayload = _.pick(data, ['username', 'alias']);
+
+    const profilePayload = _.pick(data, [
+      'first_name',
+      'last_name',
+      'middle_name',
+      'phone',
+      'address',
+      'region',
+      'zip',
+      'gender',
+      'dob',
+    ]);
+
+    // update user endpoint
+    this.http.post('users', userPayload).subscribe((user) => {
+        localStorage.setItem('profile', JSON.stringify(user));
+        this.modal = true;
+    });
+
   }
 
   updateProfile(data) {
@@ -182,8 +208,6 @@ export class ProfileFormComponent implements OnInit {
     if (this.billing) {
       fd.append('billing', this.billing, this.billing.name);
     }
-
-    console.log('fd', fd);
 
     // update user endpoint
     this.http.put('users', userPayload).subscribe((user) => {

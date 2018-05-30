@@ -10,14 +10,6 @@
     bottom: 2rem;
 }
 
-.input-group {
-    margin-bottom: 1rem;
-}
-
-.form-control.fname {
-    margin-right: 1rem;
-}
-
 .btn-facebook {
     background: #3B5998;
     border-radius: 0;
@@ -36,6 +28,10 @@
 
 .show {
     display: block !important;
+}
+
+.signup-container {
+    margin-top: -1rem;
 }
 
 // .dropdown-menu, ngb-typeahead-window {
