@@ -10,6 +10,7 @@ import { FooterComponent } from './component/footer/footer.component';
 import { SuccessComponent } from './modal/success/success.component';
 import { SidebarMenuComponent } from './component/sidebar-menu/sidebar-menu.component';
 import { LoaderComponent } from './component/loader/loader.component';
+import { ErrorComponent } from './modal/error/error.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { LoaderComponent } from './component/loader/loader.component';
     FooterComponent,
     SuccessComponent,
     SidebarMenuComponent,
-    LoaderComponent
+    LoaderComponent,
+    ErrorComponent
   ],
   declarations: [
     HeaderComponent,
@@ -38,7 +40,8 @@ import { LoaderComponent } from './component/loader/loader.component';
     FooterComponent,
     SuccessComponent,
     SidebarMenuComponent,
-    LoaderComponent
+    LoaderComponent,
+    ErrorComponent
   ],
   providers: [
     ApiService

@@ -24,6 +24,9 @@ export class HomeComponent implements OnInit {
   formatter;
   searching = false;
   searchFailed = false;
+  errorModal = false;
+  errMsg = 'Invalid Request';
+
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(
@@ -60,7 +63,7 @@ export class HomeComponent implements OnInit {
     this.form = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
 
@@ -100,12 +103,20 @@ export class HomeComponent implements OnInit {
       this.modal = true;
     }, (err) => {
       this.request = false;
-      console.log(err);
+      if (err.error.code === 11000) {
+        this.errMsg = 'Email address already used.';
+      }
+      this.errorModal = true;
     });
   }
 
   hideModal() {
     this.modal = false;
+    this.router.navigate(['user/login']);
+  }
+
+  close() {
+    this.errorModal = false;
   }
 
   selected(e) {
