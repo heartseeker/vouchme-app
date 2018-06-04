@@ -5,6 +5,8 @@
   (close)="close($event)"
 >
 </app-success>
+<div [ngClass]="{'disabled': request}"></div>
+<app-loader *ngIf="request"></app-loader>
 <div class="row mt-5">
   <div class="col-md-2">
     <!-- sidebar menu -->
@@ -67,10 +69,29 @@
       </div>
 
       <div class="mb-3">
-        <label for="email">Email <span class="text-muted">(Optional)</span></label>
-        <input type="email" class="form-control" id="email" placeholder="you@example.com" formControlName="email">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          id="email" 
+          placeholder="you@example.com" 
+          formControlName="email"
+          [ngClass]="{'is-invalid' : emailErr}"
+          >
+          <!-- [ngClass]="{'is-invalid' : form.get('email').invalid && form.get('email').touched}" -->
+        <div class="invalid-feedback" *ngIf="!emailErr">
+          Please enter a valid email address.
+        </div>
+        <div class="invalid-feedback" *ngIf="emailErr">
+          Email address already exist
+        </div>
+      </div>
+
+      <div class="mb-3" *ngIf="mode !== 'edit'">
+        <label for="email">Password</label>
+        <input type="password" class="form-control" id="password" formControlName="password">
         <div class="invalid-feedback">
-          Please enter a valid email address for shipping updates.
+          Please enter valid password.
         </div>
       </div>
 

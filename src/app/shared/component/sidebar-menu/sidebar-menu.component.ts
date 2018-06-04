@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { AuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -10,14 +10,22 @@ import { Router } from '@angular/router';
 export class SidebarMenuComponent implements OnInit {
 
   constructor(
-    private route: Router
+    private route: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
   }
 
-  logout() {
+  async logout() {
     localStorage.clear();
+    this.authService.authState
+      .subscribe(async (res) => {
+        if (res) {
+          await this.authService.signOut();
+        }
+      });
+
     this.route.navigate(['/']);
   }
 

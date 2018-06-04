@@ -2,6 +2,9 @@
 <app-header></app-header>
 <!-- #header -->
 
+<div [ngClass]="{'disabled': request}"></div>
+<app-loader *ngIf="request"></app-loader>
+
 <section class="h-100 my-login-page">
   <div class="container h-100">
     <div class="row justify-content-md-center h-100">
@@ -9,6 +12,9 @@
         <div class="card fat">
           <div class="card-body">
             <h4 class="card-title">Login</h4>
+            <div class="alert alert-danger" role="alert" *ngIf="err">
+              {{ err }}
+            </div>
             <form [formGroup]="form">
              
               <div class="form-group">

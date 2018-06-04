@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
 
   currentYear = (new Date()).getFullYear();
   form: FormGroup;
+  request = false;
+  err;
 
   constructor(
     private fb: FormBuilder,
@@ -37,12 +39,17 @@ export class LoginComponent implements OnInit {
       username,
       password
     };
-
+    this.request = true;
     this.http.post('auth', payload)
     .subscribe((res) => {
+      this.request = false;
       const helper = new JwtHelperService();
       localStorage.setItem('token', res['token']);
       this.route.navigate(['user/profile']);
+    }, (err) => {
+      console.log(err);
+      this.err = err.error;
+      this.request = false;
     });
   }
 

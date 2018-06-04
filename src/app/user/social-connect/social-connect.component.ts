@@ -34,7 +34,13 @@ export class SocialConnectComponent implements OnInit {
   }
 
   delete(id) {
-
+    if (confirm('Are you sure you want to remove this?')) {
+      this.http.delete('users/social/' + id).subscribe((socials) => {
+        this.profile.social = socials;
+        this.socials = socials;
+        localStorage.setItem('profile', JSON.stringify(this.profile));
+      });
+    }
   }
 
 }

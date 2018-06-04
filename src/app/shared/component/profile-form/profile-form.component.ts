@@ -1,12 +1,12 @@
 import { environment } from './../../../../environments/environment';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { REGIONS } from '../../../../constants/philippines';
 import { ApiService } from '../../../core/api.service';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-form',
@@ -31,6 +31,8 @@ export class ProfileFormComponent implements OnInit {
   id2Url;
   billingUrl;
   profile;
+  emailErr = false;
+  request = false;
 
   @Input('mode') mode;
   @Input('btnLabel') btnLabel = 'Create account';
@@ -38,6 +40,7 @@ export class ProfileFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private http: ApiService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -45,12 +48,13 @@ export class ProfileFormComponent implements OnInit {
       this.loadProfileForm();
     } else {
       this.form = this.fb.group({
-        first_name: ['', [Validators.required]],
-        last_name: ['', [Validators.required]],
+        first_name: ['', [Validators.minLength(3), Validators.required]],
+        last_name: ['', [Validators.minLength(3), Validators.required]],
         middle_name: ['', []],
         phone: ['', []],
         alias: ['', []],
-        email: ['', []],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required]],
         address: ['', []],
         region: ['', []],
         zip: ['', []],
@@ -88,28 +92,28 @@ export class ProfileFormComponent implements OnInit {
 
     this.profile = JSON.parse(localStorage.getItem('profile'));
 
-    if (this.profile.profile.id1) {
+    if (this.profile && this.profile.profile.id1) {
       this.id1Url = `${environment.api_base_url}images/${this.profile._id}/${this.profile.profile.id1}`;
     }
-    if (this.profile.profile.id2) {
+    if (this.profile && this.profile.profile.id2) {
       this.id2Url = `${environment.api_base_url}images/${this.profile._id}/${this.profile.profile.id2}`;
     }
-    if (this.profile.profile.billing) {
+    if (this.profile && this.profile.profile.billing) {
       this.billingUrl = `${environment.api_base_url}images/${this.profile._id}/${this.profile.profile.billing}`;
     }
-    console.log(`${environment.api_base_url}images/${this.profile._id}/${this.profile.profile.id1}`);
+
   }
 
   loadProfileForm() {
     this.user = JSON.parse(localStorage.getItem('profile'));
 
     this.form = this.fb.group({
-      first_name: [this.user.profile.first_name, [Validators.required]],
-      last_name: [this.user.profile.last_name, [Validators.required]],
+      first_name: [this.user.profile.first_name, [Validators.required, Validators.minLength(3)]],
+      last_name: [this.user.profile.last_name, [Validators.required, Validators.minLength(3)]],
       middle_name: [this.user.profile.middle_name, []],
       phone: [this.user.profile.phone, []],
       alias: [this.user.alias, []],
-      email: [this.user.username, []],
+      email: [this.user.username, [Validators.required, Validators.email]],
       address: [this.user.profile.address, []],
       region: [this.user.profile.region, []],
       zip: [this.user.profile.zip, []],
@@ -151,32 +155,26 @@ export class ProfileFormComponent implements OnInit {
     if (this.mode === 'edit') {
       this.updateProfile(data);
     } else {
+      data['password'] = this.value('password');
       // create data
       this.createProfile(data);
     }
 
-    console.log('form', this.form);
   }
 
   createProfile(data) {
-    const userPayload = _.pick(data, ['username', 'alias']);
-
-    const profilePayload = _.pick(data, [
-      'first_name',
-      'last_name',
-      'middle_name',
-      'phone',
-      'address',
-      'region',
-      'zip',
-      'gender',
-      'dob',
-    ]);
-
+    this.request = true;
     // update user endpoint
-    this.http.post('users', userPayload).subscribe((user) => {
+    this.http.post('users/signup', data).subscribe((user) => {
         localStorage.setItem('profile', JSON.stringify(user));
+        this.request = false;
         this.modal = true;
+    }, (err) => {
+      const code = err.error.error.code;
+      if (code === 11000) {
+        this.emailErr = true;
+        this.request = false;
+      }
     });
 
   }
@@ -239,8 +237,10 @@ export class ProfileFormComponent implements OnInit {
   }
 
   close(event) {
-    console.log('e', event);
     this.modal = false;
+    if (this.mode !== 'edit') {
+      this.router.navigate(['/user/login']);
+    }
   }
 
   value(field: string) {

@@ -11,7 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const config = new AuthServiceConfig([
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('214007255331048')
+    provider: new FacebookLoginProvider('2063120697268769')
   }
 ]);
 

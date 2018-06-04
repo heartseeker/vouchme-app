@@ -7,7 +7,7 @@ import { AuthService } from 'angularx-social-login';
 import { FacebookLoginProvider } from 'angularx-social-login';
 import { AuthenticateService } from '../../core/authenticate.service';
 import { Router } from '@angular/router';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   form: FormGroup;
+  contactForm: FormGroup;
   modal = false;
   user;
   request = false;
@@ -26,6 +27,8 @@ export class HomeComponent implements OnInit {
   searchFailed = false;
   errorModal = false;
   errMsg = 'Invalid Request';
+  transactions$;
+  emailSent = false;
 
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
@@ -57,8 +60,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.user = this.auth.getFbUser();
 
-    console.log('user', this.user);
-    console.log('isLoggedin', this.auth.isLoggedIn());
+    this.authService.authState
+      .subscribe(res => {
+        console.log('facebook', res);
+      });
 
     this.form = this.fb.group({
       first_name: ['', Validators.required],
@@ -67,16 +72,32 @@ export class HomeComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    // this.http.post('profiles/user', {}).subscribe(test => {
-    //   console.log('test', test);
-    // });
+    this.contactForm = this.fb.group({
+      name: ['', [Validators.required, Validators.min(4)]],
+      email: ['', [Validators.required, Validators.email]],
+      subject: ['', [Validators.required]],
+      message: ['', [Validators.required]],
+    });
+
+    this.transactions$ = this.http.get('transactions/public');
+
     this.formatter  = (x: {name: string}) => {
       return x['username'];
     };
   }
 
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  async signInWithFB() {
+    this.request = true;
+    const facebook = await this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.http.post(`users/facebook`, facebook).subscribe(res => {
+      this.request = false;
+      const helper = new JwtHelperService();
+      localStorage.setItem('token', res['token']);
+      this.router.navigate(['user/profile']);
+    }, (err) => {
+      this.request = false;
+      alert('Invalid request');
+    });
   }
 
   signOut(): void {
@@ -96,7 +117,6 @@ export class HomeComponent implements OnInit {
       password
     };
 
-    console.log('payload', payload);
     this.request = true;
     this.http.post('users', payload).subscribe(res => {
       this.request = false;
@@ -115,14 +135,28 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['user/login']);
   }
 
-  close() {
+  close(e) {
     this.errorModal = false;
   }
 
   selected(e) {
-    console.log('item', e.item);
     const alias = e.item.alias;
     this.router.navigate([`/user/${alias}`]);
+  }
+
+  submitContact() {
+    const data = {
+      name: this.contactForm.get('name').value,
+      email: this.contactForm.get('email').value,
+      subject: this.contactForm.get('subject').value,
+      message: this.contactForm.get('name').value
+    };
+
+    this.request = true;
+    this.http.post('users/contact', data).subscribe(res => {
+      this.emailSent = true;
+      this.request = false;
+    });
   }
 
 }
