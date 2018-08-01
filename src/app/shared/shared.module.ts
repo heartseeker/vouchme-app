@@ -11,6 +11,11 @@ import { SuccessComponent } from './modal/success/success.component';
 import { SidebarMenuComponent } from './component/sidebar-menu/sidebar-menu.component';
 import { LoaderComponent } from './component/loader/loader.component';
 import { ErrorComponent } from './modal/error/error.component';
+import { SharedService } from './shared.service';
+import { UserService } from './service/user.service';
+import { SocialService } from './service/social.service';
+import { VouchListComponent } from './modal/vouch-list/vouch-list.component';
+import { InflameListComponent } from './modal/inflame-list/inflame-list.component';
 
 
 @NgModule({
@@ -32,7 +37,8 @@ import { ErrorComponent } from './modal/error/error.component';
     SuccessComponent,
     SidebarMenuComponent,
     LoaderComponent,
-    ErrorComponent
+    ErrorComponent,
+    VouchListComponent
   ],
   declarations: [
     HeaderComponent,
@@ -41,10 +47,15 @@ import { ErrorComponent } from './modal/error/error.component';
     SuccessComponent,
     SidebarMenuComponent,
     LoaderComponent,
-    ErrorComponent
+    ErrorComponent,
+    VouchListComponent,
+    InflameListComponent
   ],
   providers: [
-    ApiService
+    ApiService,
+    SharedService,
+    SocialService,
+    UserService
   ]
 })
 export class SharedModule { }

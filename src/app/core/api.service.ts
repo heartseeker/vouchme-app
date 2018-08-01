@@ -2,6 +2,7 @@ import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Http, Headers } from '@angular/http';
+import { Observable } from '../../../node_modules/rxjs';
 
 @Injectable()
 export class ApiService {
@@ -28,24 +29,24 @@ export class ApiService {
   }
 
 
-  get(url) {
+  get<T>(url): Observable<T> {
     const headers = this.createAuthorizationHeader();
-    return this.http.get(`${environment.api_url}${url}`, { headers });
+    return this.http.get<T>(`${environment.api_url}${url}`, { headers });
   }
 
-  post(url, payload) {
+  post<T>(url, payload): Observable<T> {
     const headers = this.createAuthorizationHeader();
-    return this.http.post(`${environment.api_url}${url}`, payload, {headers});
+    return this.http.post<T>(`${environment.api_url}${url}`, payload, {headers});
   }
 
-  put(url, payload) {
+  put<T>(url, payload): Observable<T> {
     const headers = this.createAuthorizationHeader();
-    return this.http.put(`${environment.api_url}${url}`, payload, {headers});
+    return this.http.put<T>(`${environment.api_url}${url}`, payload, {headers});
   }
 
-  delete(url) {
+  delete<T>(url): Observable<T> {
     const headers = this.createAuthorizationHeader();
-    return this.http.delete(`${environment.api_url}${url}`, {headers});
+    return this.http.delete<T>(`${environment.api_url}${url}`, {headers});
   }
 
   upload(url, payload) {

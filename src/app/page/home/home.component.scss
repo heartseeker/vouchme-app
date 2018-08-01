@@ -34,18 +34,10 @@
     margin-top: -1rem;
 }
 
-// .dropdown-menu, ngb-typeahead-window {
-//     width: 62.5rem !important;
-// }
-
-// #ngb-typeahead-0 {
-//     width: 62.5rem !important;
-// }
-
-// ::ng-deep ngb-typeahead-window.dropdown-menu {
-//     position:absolute;
-//     width:calc(100% - 26.7rem);
-//     // width: 62.5rem;
-//     max-height: 300px;
-//     overflow-y: auto;
-// }
+.loading {    
+    background-color: #ffffff;
+    background-image: url("/assets/images/loading.gif");
+    background-size: 25px 25px;
+    background-position:right center;
+    background-repeat: no-repeat;
+}

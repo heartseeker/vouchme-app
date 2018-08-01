@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../core/api.service';
+import { SharedService } from '../../shared/shared.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class SocialConnectComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private http: ApiService
+    private http: ApiService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -29,8 +31,13 @@ export class SocialConnectComponent implements OnInit {
 
   }
 
-  edit() {
+  add() {
     this.router.navigate(['/user/connections/add']);
+  }
+
+  edit(social) {
+    this.sharedService.social = social;
+    this.router.navigate([`/user/connections/${social._id}/edit`]);
   }
 
   delete(id) {

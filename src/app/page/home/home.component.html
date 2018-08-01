@@ -59,6 +59,7 @@
             placeholder="Find people reputation"
             type="text" 
             class="form-control search-box" 
+            [ngClass]="{'loading': searching}"
             [ngbTypeahead]="search" 
             [resultTemplate]="rt"
             [inputFormatter]="formatter" 

@@ -12,9 +12,9 @@
       <!-- #header -->
     </div>
     <div class="col-md-8 order-md-1">
-      <h4 class="mb-3">Social Connections <span class="edit" (click)="edit()">Add</span></h4>
+      <h4 class="mb-3">Social Connections <span class="edit" (click)="add()">Add</span></h4>
         <ul class="list-group">
-          <li class="list-group-item" *ngFor="let social of socials">
+          <li class="list-group-item" *ngFor="let social of socials" (click)="edit(social)">
             {{ social.name }} - <a [href]="social.url" target="_blank">Link</a>
             <button type="button" class="close" aria-label="Close" (click)="delete(social._id)">
               <span aria-hidden="true">&times;</span>

@@ -16,6 +16,10 @@ export class PublicComponent implements OnInit {
   socials: any = {};
   transactions$;
   verify;
+  modal: boolean = false;
+  vouches$;
+  userId;
+  type: string = 'vouch';
 
   constructor(
     private route: Router,
@@ -24,18 +28,36 @@ export class PublicComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getTransactions();
+    // this.userId = this.activated.snapshot.params['alias'];
+
+    this.activated.params.subscribe(params => {
+      this.userId = params['alias'];
+      this.getTransactions();
+    });
+  }
+
+  vouchModal() {
+    this.type = 'vouch';
+    this.modal = true;
+  }
+
+  inflameModal() {
+    this.type = 'inflame';
+    this.modal = true;
+    // this.http.post('inflames', { to: this.user._id }).subscribe(res => {
+    //   console.log('inflame', res);
+    // }, (err) => {
+    //   this.route.navigate(['user/login']);
+    // });
   }
 
   getTransactions() {
-    const alias = this.activated.snapshot.params['alias'];
 
-    this.http.get(`users/${alias}`).take(1)
+    this.http.get(`users/${this.userId}`).take(1)
     .switchMap(user => {
       if (user) {
         this.user = user;
         this.socials = user['social'];
-        this.transactions$ = this.http.get('transactions/social?to=' + user['_id']);
         return this.http.post('vouches/verify', { to: this.user._id });
       }
     })
@@ -51,13 +73,17 @@ export class PublicComponent implements OnInit {
     });
   }
 
-  vouch() {
-    this.http.post('vouches', { to: this.user._id }).subscribe(res => {
-      this.verify = res['status'];
-      this.getTransactions();
-    }, (err) => {
-      this.route.navigate(['user/login']);
-    });
+  // vouch() {
+  //   this.http.post('vouches', { to: this.user._id }).subscribe(res => {
+  //     this.verify = res['status'];
+  //     this.getTransactions();
+  //   }, (err) => {
+  //     this.route.navigate(['user/login']);
+  //   });
+  // }
+
+  isClosed() {
+    this.modal = false;
   }
 
 }

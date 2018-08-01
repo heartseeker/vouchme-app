@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: 'user/login', component: LoginComponent },
   { path: 'user/profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'user/edit', component: EditComponent, canActivate: [AuthGuardService] },
+  { path: 'user/connections/:alias/edit', component: SocialEditComponent, canActivate: [AuthGuardService] },
   { path: 'user/connections/add', component: SocialEditComponent, canActivate: [AuthGuardService] },
   { path: 'user/connections', component: SocialConnectComponent, canActivate: [AuthGuardService] },
   { path: 'user/channels/add', component: ChannelAddComponent, canActivate: [AuthGuardService] },

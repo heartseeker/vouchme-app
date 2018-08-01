@@ -22,4 +22,51 @@
 
 .verified-img {
     width: 50px;
+    border: none;
+}
+
+
+// .container {
+//   display: flex;
+//   justify-content: center;
+//   align-content: flex-start;
+//   -webkit-flex-flow: row wrap;
+//   flex-flow: row wrap;
+// }
+
+.rounder {
+    width: 200px;
+    height: 200px;
+    border-radius: 1000px; 
+    margin: 0.5em;
+    color: #fff;
+    cursor: pointer;
+}
+
+.rounder-green {
+    background-color: #45CEA2;
+}
+.rounder-red {
+    background-color: #dc2f4c;
+}
+
+
+.rounder-green:hover {
+  background-color: #3eb991;
+}
+
+.rounder-red:hover {
+  background-color: #c62a44;
+}
+
+.aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
+.img-circle {
+    border-radius: 50%;
 }
