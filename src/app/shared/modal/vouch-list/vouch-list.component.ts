@@ -14,7 +14,11 @@ export class VouchListComponent implements OnInit, OnChanges {
   vouchType;
   id;
   vouches$;
+  verify;
   userId;
+  btnLabel;
+  btnType;
+  modalTitle;
 
   @Input('modal') set modal(value) {
     this._modal = value;
@@ -26,7 +30,6 @@ export class VouchListComponent implements OnInit, OnChanges {
 
   private _type: string;
 
-  @Input('title') title;
   @Input('msg') msg;
   @Input('type') type;
   @Output('close') close = new EventEmitter();
@@ -41,20 +44,61 @@ export class VouchListComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.vouchType = this.type === 'vouch' ? 'vouches' : 'inflames';
+    this.modalTitle = `List of ${this.vouchType}`;
     this.route.params.subscribe(params => {
-      console.log('ttype', this.type);
       this.userId = params['alias'];
       this.vouches$ =  this.http.get(`${this.vouchType}/list?to=${this.userId}`);
+        this.setBtnLabel();
+      });
+  }
+
+  setBtnLabel() {
+    this.http.post(`${this.vouchType}/verify`, {to: this.userId}).subscribe(response => {
+      if (this.type === 'vouch') {
+        if (response['status']) {
+          this.btnLabel = 'Unvouch';
+          this.btnType = 'btn-outline-success';
+        } else {
+          this.btnLabel = 'Vouch';
+          this.btnType = 'btn-success';
+        }
+        return;
+      }
+
+      if (response['status']) {
+        this.btnLabel = 'Unflame';
+        this.btnType = 'btn-outline-danger';
+      } else {
+        this.btnLabel = 'Inflame';
+        this.btnType = 'btn-danger';
+      }
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('change', changes);
     if ('type' in changes) {
       this.vouchType = this.type === 'vouch' ? 'vouches' : 'inflames';
+      this.modalTitle = `List of ${this.vouchType}`;
       this.vouches$ =  this.http.get(`${this.vouchType}/list?to=${this.userId}`);
-      console.log('changes.type.currentValue', changes.type.currentValue);
+      this.setBtnLabel();
     }
+  }
+
+  action() {
+    this.http.post(`${this.vouchType}`, { to: this.userId }).subscribe(res => {
+      if (res['error']) {
+        alert(`You already Vouch/Inflame this person`);
+        this.close.emit({modal: false});
+      }
+
+      if ('status' in res) {
+        this.vouches$ =  this.http.get(`${this.vouchType}/list?to=${this.userId}`);
+        this.setBtnLabel();
+      }
+
+    }, (err) => {
+      this.router.navigate(['user/login']);
+    });
   }
 
 

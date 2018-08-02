@@ -32,38 +32,26 @@ export class PublicComponent implements OnInit {
 
     this.activated.params.subscribe(params => {
       this.userId = params['alias'];
-      this.getTransactions();
+      this.getUserData();
     });
   }
 
-  vouchModal() {
-    this.type = 'vouch';
+  showModal(type) {
+    this.type = type;
     this.modal = true;
   }
 
-  inflameModal() {
-    this.type = 'inflame';
-    this.modal = true;
-    // this.http.post('inflames', { to: this.user._id }).subscribe(res => {
-    //   console.log('inflame', res);
-    // }, (err) => {
-    //   this.route.navigate(['user/login']);
-    // });
-  }
+  getUserData() {
 
-  getTransactions() {
-
-    this.http.get(`users/${this.userId}`).take(1)
-    .switchMap(user => {
+    this.http.get(`users/${this.userId}`)
+    .take(1)
+    .subscribe(user => {
       if (user) {
         this.user = user;
         this.socials = user['social'];
-        return this.http.post('vouches/verify', { to: this.user._id });
       }
-    })
-    .subscribe(res => {
-      this.verify = res['status'];
     });
+
   }
 
   findSocial(name) {
@@ -72,15 +60,6 @@ export class PublicComponent implements OnInit {
       return s['name'] === name;
     });
   }
-
-  // vouch() {
-  //   this.http.post('vouches', { to: this.user._id }).subscribe(res => {
-  //     this.verify = res['status'];
-  //     this.getTransactions();
-  //   }, (err) => {
-  //     this.route.navigate(['user/login']);
-  //   });
-  // }
 
   isClosed() {
     this.modal = false;
