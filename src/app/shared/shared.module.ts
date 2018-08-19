@@ -15,7 +15,7 @@ import { SharedService } from './shared.service';
 import { UserService } from './service/user.service';
 import { SocialService } from './service/social.service';
 import { VouchListComponent } from './modal/vouch-list/vouch-list.component';
-import { InflameListComponent } from './modal/inflame-list/inflame-list.component';
+import { ContainerComponent } from './modal/container/container.component';
 
 
 @NgModule({
@@ -38,7 +38,8 @@ import { InflameListComponent } from './modal/inflame-list/inflame-list.componen
     SidebarMenuComponent,
     LoaderComponent,
     ErrorComponent,
-    VouchListComponent
+    VouchListComponent,
+    ContainerComponent
   ],
   declarations: [
     HeaderComponent,
@@ -49,7 +50,7 @@ import { InflameListComponent } from './modal/inflame-list/inflame-list.componen
     LoaderComponent,
     ErrorComponent,
     VouchListComponent,
-    InflameListComponent
+    ContainerComponent
   ],
   providers: [
     ApiService,

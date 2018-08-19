@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (localStorage.getItem('profile')) {
+      this.route.navigate(['/user/profile']);
+    }
+
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],

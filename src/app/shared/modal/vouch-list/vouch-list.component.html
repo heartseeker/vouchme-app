@@ -4,12 +4,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{{ modalTitle }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button (click)="hideModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <button class="btn" [class]="btnType" (click)="action()">{{ btnLabel }}</button>
+        <!-- <button class="btn" [class]="btnType" (click)="action()">{{ btnLabel }}</button> -->
         <ul class="list-group">
           <li class="list-group-item vouch-item" *ngFor="let vouch of vouches$ | async" (click)="vouchme(vouch.from._id)">
               {{ vouch.from.profile.first_name + ' ' + vouch.from.profile.last_name }}
@@ -19,7 +19,14 @@
         </ul>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="hideModal()">Close</button>
+        <div class="container" *ngIf="unvouchText">
+          <a href="javascript:void(0)" (click)="unvouch()">
+            <span class="unvouch-lbl">{{ undoLbl }}</span>
+          </a>
+        </div>
+        <div *ngIf="!unvouchText">
+            <button class="btn" [class]="btnType" (click)="action()">{{ btnLabel }}</button>
+        </div>
       </div>
     </div>
   </div>

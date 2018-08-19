@@ -24,9 +24,11 @@ export class ProfileFormComponent implements OnInit {
   user;
   fileSelected: File;
   id1: File;
+  picture: File;
   id2: File;
   billing: File;
   modal = false;
+  pictureUrl;
   id1Url;
   id2Url;
   billingUrl;
@@ -92,6 +94,9 @@ export class ProfileFormComponent implements OnInit {
 
     this.profile = JSON.parse(localStorage.getItem('profile'));
 
+    if (this.profile && this.profile.profile.picture) {
+      this.pictureUrl = `${environment.api_base_url}images/${this.profile._id}/${this.profile.profile.picture}`;
+    }
     if (this.profile && this.profile.profile.id1) {
       this.id1Url = `${environment.api_base_url}images/${this.profile._id}/${this.profile.profile.id1}`;
     }
@@ -197,6 +202,9 @@ export class ProfileFormComponent implements OnInit {
     userPayload['profile'] = profilePayload;
 
     const fd = new FormData();
+    if (this.picture) {
+      fd.append('picture', this.picture, this.picture.name);
+    }
     if (this.id1) {
       fd.append('id1', this.id1, this.id1.name);
     }
@@ -224,6 +232,9 @@ export class ProfileFormComponent implements OnInit {
 
   onFileChange(event, name) {
     switch (name) {
+      case 'picture':
+        this.picture = event.target.files[0];
+        break;
       case 'id1':
         this.id1 = event.target.files[0];
         break;

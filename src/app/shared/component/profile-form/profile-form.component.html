@@ -53,6 +53,16 @@
       </div>
 
       <div class="mb-3">
+        <label for="picture">Profile Picture</label>
+        <input type="file" (change)="onSelectFile($event, 'pictureUrl')" accept=".png, .jpg, .jpeg" class="form-control" id="picture" (change)="onFileChange($event, 'picture')">
+        <br/>
+        <img *ngIf="pictureUrl" [src]="pictureUrl" height="200" class="img-thumbnail card-id">
+        <div class="invalid-feedback">
+          Please enter Profile Picture.
+        </div>
+      </div>
+
+      <div class="mb-3">
         <label for="phone">Phone <span class="text-muted">(Optional)</span></label>
         <input type="text" class="form-control" id="phone" placeholder="(+639) 1234567" formControlName="phone">
         <div class="invalid-feedback">

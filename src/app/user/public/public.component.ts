@@ -13,10 +13,12 @@ export class PublicComponent implements OnInit {
 
   user = null;
   path = environment.api_url;
-  socials: any = {};
+  baseUrl = environment.api_base_url;
+  socials: any = [];
   transactions$;
   verify;
   modal: boolean = false;
+  identityModal: boolean = false;
   vouches$;
   userId;
   type: string = 'vouch';
@@ -49,9 +51,35 @@ export class PublicComponent implements OnInit {
       if (user) {
         this.user = user;
         this.socials = user['social'];
+        user['social'].map((social, index) => {
+          if (String(social.url).includes('facebook.com')) {
+            this.socials[index]['icon'] = 'fb.png';
+          } else if (String(social.url).includes('olx.ph')) {
+            this.socials[index]['icon'] = 'olx.png';
+          } else if (String(social.url).includes('shopee.ph')) {
+            this.socials[index]['icon'] = 'shopee.png';
+          } else if (String(social.url).includes('amazon.com')) {
+            this.socials[index]['icon'] = 'amazon.jpg';
+          } else if (String(social.url).includes('ebay.ph')) {
+            this.socials[index]['icon'] = 'ebay.png';
+          } else {
+            this.socials[index]['icon'] = 'world.png';
+          }
+          this.socials[index]['name'] = social.name;
+          this.socials[index]['url'] = social.url;
+        });
+
       }
     });
 
+  }
+
+  identity() {
+    this.identityModal = true;
+  }
+
+  closeIdentity() {
+    this.identityModal = false;
   }
 
   findSocial(name) {

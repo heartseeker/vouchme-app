@@ -3,8 +3,8 @@
 }
 
 .card-id {
-    width: 300px;
-    height: 200px;
+    width: auto;
+    height: 50px;
 }
 
 .social-img {
@@ -13,6 +13,11 @@
 }
 .social-img2 {
     width: 100px;
+    height: 50px;
+}
+
+.social-thumb {
+    max-width: 100%;
     height: 50px;
 }
 
@@ -25,14 +30,13 @@
     border: none;
 }
 
+.social-link {
+    font-size: .8rem;
+}
 
-// .container {
-//   display: flex;
-//   justify-content: center;
-//   align-content: flex-start;
-//   -webkit-flex-flow: row wrap;
-//   flex-flow: row wrap;
-// }
+.id-container {
+    margin-top: 1rem;
+}
 
 .rounder {
     width: 200px;

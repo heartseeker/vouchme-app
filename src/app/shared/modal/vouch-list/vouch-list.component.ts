@@ -19,6 +19,19 @@ export class VouchListComponent implements OnInit, OnChanges {
   btnLabel;
   btnType;
   modalTitle;
+  undoLbl;
+  unvouchText;
+  ids = [];
+
+  _user;
+
+  @Input('user') set user(value) {
+    this._user = value;
+  }
+
+  get user(): boolean {
+    return this._user;
+  }
 
   @Input('modal') set modal(value) {
     this._modal = value;
@@ -43,13 +56,20 @@ export class VouchListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.vouchType = this.type === 'vouch' ? 'vouches' : 'inflames';
+    this.vouchType = this.type === 'vouch' ? 'vouches' : 'infames';
     this.modalTitle = `List of ${this.vouchType}`;
     this.route.params.subscribe(params => {
       this.userId = params['alias'];
       this.vouches$ =  this.http.get(`${this.vouchType}/list?to=${this.userId}`);
         this.setBtnLabel();
       });
+
+      if ('id1' in this.user['profile']) {
+        this.ids.push(this.user['profile'].id1);
+      }
+      if ('id2' in this.user['profile']) {
+        this.ids.push(this.user['profile'].id2);
+      }
   }
 
   setBtnLabel() {
@@ -58,9 +78,12 @@ export class VouchListComponent implements OnInit, OnChanges {
         if (response['status']) {
           this.btnLabel = 'Unvouch';
           this.btnType = 'btn-outline-success';
+          this.undoLbl = `Do you want to unvouch ${this.user['profile'].first_name} ${this.user['profile'].last_name}?`;
+          this.unvouchText = true;
         } else {
           this.btnLabel = 'Vouch';
           this.btnType = 'btn-success';
+          this.unvouchText = false;
         }
         return;
       }
@@ -68,16 +91,20 @@ export class VouchListComponent implements OnInit, OnChanges {
       if (response['status']) {
         this.btnLabel = 'Unflame';
         this.btnType = 'btn-outline-danger';
+        this.undoLbl = `Do you want to unfame ${this.user['profile'].first_name} ${this.user['profile'].last_name}?`;
+        this.unvouchText = true;
+        console.log('WTF?');
       } else {
-        this.btnLabel = 'Inflame';
+        this.btnLabel = 'Infame';
         this.btnType = 'btn-danger';
+        this.unvouchText = false;
       }
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if ('type' in changes) {
-      this.vouchType = this.type === 'vouch' ? 'vouches' : 'inflames';
+      this.vouchType = this.type === 'vouch' ? 'vouches' : 'infames';
       this.modalTitle = `List of ${this.vouchType}`;
       this.vouches$ =  this.http.get(`${this.vouchType}/list?to=${this.userId}`);
       this.setBtnLabel();
@@ -87,7 +114,7 @@ export class VouchListComponent implements OnInit, OnChanges {
   action() {
     this.http.post(`${this.vouchType}`, { to: this.userId }).subscribe(res => {
       if (res['error']) {
-        alert(`You already Vouch/Inflame this person`);
+        alert(`You already Vouch/Infame this person`);
         this.close.emit({modal: false});
       }
 
@@ -109,6 +136,12 @@ export class VouchListComponent implements OnInit, OnChanges {
 
   hideModal() {
     this.close.emit({modal: false});
+  }
+
+  unvouch() {
+    if (confirm(`Are you sure you want to un${this.type} ${this.user['profile'].first_name} ${this.user['profile'].last_name}?`)) {
+      this.action();
+    }
   }
 
 }

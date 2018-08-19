@@ -3,10 +3,23 @@
 <!-- #header -->
 
 <app-vouch-list 
+  *ngIf="user"
   [modal]="modal" 
   (close)="isClosed()"
   [type]="type"
+  [user]="user"
 ></app-vouch-list>
+
+<app-modal
+  *ngIf="user"
+  [modal]="identityModal" 
+  [title]="'Identification Documents'"
+  (close)="closeIdentity()"
+>
+  <div class="modal-body">
+    <img class="img-thumbnail" src="{{ baseUrl + 'images/' + user._id + '/' + user.profile.id1 }}">
+  </div>
+</app-modal>
 
 <div class="container">
 
@@ -16,29 +29,29 @@
         <div class="col-md">
           <h6 class="mt-2">Connections</h6>
           <ul class="list-group">
-            <li *ngFor="let social of socials"><a target="_blank" [href]="social.url">{{ social.name }}</a></li>
+            <li *ngFor="let social of socials">
+              <a target="_blank" [href]="social.url"><img class="img-thumbnail social-thumb" src="/assets/images/social/{{ social.icon }}"></a>
+              <a class="social-link" target="_blank" [href]="social.url"> Go to {{ user.profile.first_name + ' ' + user.profile.last_name }} {{ social.name }} page</a>
+            </li>
           </ul>
         </div>
       </div>
       <div class="col-md">
         <div class="container">
           <h4>{{ user.profile.first_name + ' ' + user.profile.last_name }}</h4>
-          <img class="img-circle" src="http://via.placeholder.com/200x200">
+          <img class="img-circle" src="{{ baseUrl + 'images/' + user._id + '/' + user.profile.picture }}">
         </div>
-
-        <!-- <div class="row mb-3">
-          
-        </div>
-
-        <div class="row">
-         
-        </div> -->
       </div>
      
     </div>
     <div class="row">
       <div class="col-md">
-          <img src="/assets/images/id.jpg" class="img-thumbnail card-id">
+        <div class="container id-container">
+          <h6 class="mt-2">Identifications</h6>
+          <a href="javascript:void(0)" (click)="identity()">
+            <img src="/assets/images/identity.png" class="img-thumbnail card-id">
+          </a>
+        </div>
       </div>
       <div class="col-md">
         <div class="container">
@@ -52,7 +65,7 @@
       <div class="col-md">
         <div class="container">
           <div class="rounder rounder-red">
-            <div class="aligner" (click)="showModal('inflame')">
+            <div class="aligner" (click)="showModal('infame')">
               Infame
             </div>
           </div>

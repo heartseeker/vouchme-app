@@ -16,6 +16,7 @@ export class SocialEditComponent implements OnInit {
   modal = false;
   social;
   edit: boolean = false;
+  socialId: string;
 
   constructor(
     private fb: FormBuilder,
@@ -37,9 +38,9 @@ export class SocialEditComponent implements OnInit {
 
     this.route.params.subscribe(param => {
       if (param['alias']) {
-        const id = param['alias'];
+        this.socialId = param['alias'];
         this.edit = true;
-        this.socialService.getSocial(id)
+        this.socialService.getSocial(this.socialId)
           .take(1)
           .subscribe(social => {
             this.form.controls['name'].setValue(social['name']);
@@ -56,10 +57,19 @@ export class SocialEditComponent implements OnInit {
       url: this.form.get('url').value
     };
 
-    this.http.post('users/social', data).subscribe((res) => {
-      localStorage.setItem('profile', JSON.stringify(res));
-      this.router.navigate(['/user/connections']);
-    });
+    if (!this.edit) {
+      this.http.post('users/social', data).subscribe((res) => {
+        localStorage.setItem('profile', JSON.stringify(res));
+        return this.router.navigate(['/user/connections']);
+      });
+    } else {
+      this.http.put(`users/social/${this.socialId}`, data).subscribe((res) => {
+        localStorage.setItem('profile', JSON.stringify(res));
+        return this.router.navigate(['/user/connections']);
+      });
+    }
+
+
   }
 
 }
