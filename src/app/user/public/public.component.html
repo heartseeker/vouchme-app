@@ -17,7 +17,15 @@
   (close)="closeIdentity()"
 >
   <div class="modal-body">
-    <img class="img-thumbnail" src="{{ baseUrl + 'images/' + user._id + '/' + user.profile.id1 }}">
+    <div *ngIf="user.profile.id1; else noId">
+      <img class="img-thumbnail" src="{{ baseUrl + 'images/' + user._id + '/' + user.profile.id1 }}">
+    </div>
+    <div *ngIf="user.profile.id2">
+      <img class="img-thumbnail" src="{{ baseUrl + 'images/' + user._id + '/' + user.profile.id2 }}">
+    </div>
+    <ng-template #noId>
+      No Identification
+    </ng-template>
   </div>
 </app-modal>
 

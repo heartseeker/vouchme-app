@@ -20,8 +20,6 @@ export class ApiService {
       return;
     }
 
-    console.log('token!', token);
-
     headers = headers
       .set('Content-Type', 'application/json; charset=utf-8')
       .set('x-auth', token);
