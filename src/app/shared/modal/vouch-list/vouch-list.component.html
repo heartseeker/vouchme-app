@@ -12,9 +12,9 @@
         <!-- <button class="btn" [class]="btnType" (click)="action()">{{ btnLabel }}</button> -->
         <ul class="list-group">
           <li class="list-group-item vouch-item" *ngFor="let vouch of vouches$ | async" (click)="vouchme(vouch.from._id)">
+            <img src="{{ vouch.from.profile.picture ? baseUrl + 'images/' + vouch.from._id + '/' + vouch.from.profile.picture : '/assets/images/default-icon.png' }}" class="rounder">
               {{ vouch.from.profile.first_name + ' ' + vouch.from.profile.last_name }}
-              <img src="http://via.placeholder.com/32x32" class="rounded">
-              <span class="float-right">Jul 7, 2018</span>
+              <span class="float-right">{{ toDate(vouch.from._id) }}</span>
           </li>
         </ul>
       </div>

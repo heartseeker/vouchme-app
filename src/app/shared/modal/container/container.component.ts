@@ -18,7 +18,7 @@ export class ContainerComponent implements OnInit {
   get modal(): boolean {
     return this._modal;
   }
-  @Input('title') title;
+  @Input() title;
 
   constructor() { }
 

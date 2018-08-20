@@ -1,3 +1,4 @@
+import { environment } from './../../../../environments/environment';
 import { Component, OnInit, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../core/api.service';
@@ -10,6 +11,8 @@ import { ApiService } from '../../../core/api.service';
 export class VouchListComponent implements OnInit, OnChanges {
 
   private _modal: boolean;
+  path = environment.api_url;
+  baseUrl = environment.api_base_url;
   vouch;
   vouchType;
   id;
@@ -43,8 +46,8 @@ export class VouchListComponent implements OnInit, OnChanges {
 
   private _type: string;
 
-  @Input('msg') msg;
-  @Input('type') type;
+  @Input() msg;
+  @Input() type;
   @Output('close') close = new EventEmitter();
 
   constructor(
@@ -142,6 +145,23 @@ export class VouchListComponent implements OnInit, OnChanges {
     if (confirm(`Are you sure you want to un${this.type} ${this.user['profile'].first_name} ${this.user['profile'].last_name}?`)) {
       this.action();
     }
+  }
+
+  toDate(id) {
+    const timestamp =  id.toString().substring(0, 8);
+    const monthNames = [
+      'January', 'February', 'March',
+      'April', 'May', 'June', 'July',
+      'August', 'September', 'October',
+      'November', 'December'
+    ];
+
+    const date =  new Date( parseInt( timestamp, 16 ) * 1000 );
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return monthNames[monthIndex] + ' ' + day + ', ' + year;
   }
 
 }
