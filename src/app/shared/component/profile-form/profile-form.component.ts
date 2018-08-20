@@ -169,9 +169,34 @@ export class ProfileFormComponent implements OnInit {
 
   createProfile(data) {
     this.request = true;
+
+    const fd = new FormData();
+    if (this.picture) {
+      fd.append('picture', this.picture, this.picture.name);
+    }
+    if (this.id1) {
+      fd.append('id1', this.id1, this.id1.name);
+    }
+    if (this.id2) {
+      fd.append('id2', this.id2, this.id2.name);
+    }
+    if (this.billing) {
+      fd.append('billing', this.billing, this.billing.name);
+    }
+
     // update user endpoint
-    this.http.post('users/signup', data).subscribe((user) => {
-        localStorage.setItem('profile', JSON.stringify(user));
+    this.http.post('users/signup', data).subscribe((token) => {
+      localStorage.setItem('token', token['token']);
+      this.http.upload('users/upload', fd).subscribe((res) => {
+        localStorage.setItem('profile', JSON.stringify(res));
+        this.modal = true;
+        this.loadProfile();
+      }, (err) => {
+        if (err.status === 200) {
+          this.modal = true;
+          this.loadProfile();
+        }
+      });
         this.request = false;
         this.modal = true;
     }, (err) => {

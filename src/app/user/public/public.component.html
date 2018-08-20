@@ -36,18 +36,21 @@
       <div class="col-md">
         <div class="col-md">
           <h6 class="mt-2">Connections</h6>
-          <ul class="list-group">
+          <ul class="list-group" *ngIf="socials.length > 0; else noConnections">
             <li *ngFor="let social of socials">
               <a target="_blank" [href]="social.url"><img class="img-thumbnail social-thumb" src="/assets/images/social/{{ social.icon }}"></a>
               <a class="social-link" target="_blank" [href]="social.url"> Go to {{ user.profile.first_name + ' ' + user.profile.last_name }} {{ social.name }} page</a>
             </li>
           </ul>
+          <ng-template #noConnections>
+            No Current Connections
+          </ng-template>
         </div>
       </div>
       <div class="col-md">
         <div class="container">
           <h4>{{ user.profile.first_name + ' ' + user.profile.last_name }}</h4>
-          <img class="rounder" src="{{ baseUrl + 'images/' + user._id + '/' + user.profile.picture }}">
+          <img class="rounder" src="{{ user.profile.picture ? baseUrl + 'images/' + user._id + '/' + user.profile.picture : '/assets/images/default-icon.png' }}">
         </div>
       </div>
      

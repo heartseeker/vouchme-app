@@ -44,7 +44,6 @@ export class PublicComponent implements OnInit {
   }
 
   getUserData() {
-
     this.http.get(`users/${this.userId}`)
     .take(1)
     .subscribe(user => {
@@ -68,10 +67,8 @@ export class PublicComponent implements OnInit {
           this.socials[index]['name'] = social.name;
           this.socials[index]['url'] = social.url;
         });
-
       }
     });
-
   }
 
   identity() {
